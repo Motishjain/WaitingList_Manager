@@ -1,0 +1,36 @@
+#
+# generated on 2016/01/26 07:05:51
+#
+# --table-start--
+dataClass=com.example.admin.database.WaitingCustomer
+tableName=WAITING_CUSTOMER
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=name
+# --field-end--
+# --field-start--
+fieldName=cellNumber
+# --field-end--
+# --field-start--
+fieldName=totalPeople
+# --field-end--
+# --field-start--
+fieldName=waitingTime
+# --field-end--
+# --field-start--
+fieldName=estimatedWaitingTime
+# --field-end--
+# --field-start--
+fieldName=createdTs
+dataPersister=DATE_LONG
+# --field-end--
+# --field-start--
+fieldName=isDeleted
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
