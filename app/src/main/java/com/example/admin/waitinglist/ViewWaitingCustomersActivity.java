@@ -2,6 +2,7 @@ package com.example.admin.waitinglist;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,27 +38,24 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_waiting_customers);
-
-        try {
-            waitingCustomerDao = getHelper().getWaitingCustomerDao();
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            //TODO logging
-        }
-        queryBuilder = waitingCustomerDao.queryBuilder();
-        Calendar calendar = Calendar.getInstance();
-        Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
-        calendar.add(Calendar.DATE,-1);
-        Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
-        waitingCustomersTable = (TableLayout)findViewById(R.id.waitingCustomersTable);
-        try {
-            queryBuilder.where().between("createdTs",currentTs,yestTs);
-            queryBuilder.where().eq("isDeleted",false);
-            queryBuilder.orderBy("createdTs", true);
-            final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
-            if(waitingCustomerList.size()>0) {
-                int i = 0;
+        if(savedInstanceState == null) {
+            try {
+                waitingCustomerDao = getHelper().getWaitingCustomerDao();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //TODO logging
+            }
+            queryBuilder = waitingCustomerDao.queryBuilder();
+            Calendar calendar = Calendar.getInstance();
+            Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
+            calendar.add(Calendar.DATE, -1);
+            Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
+            waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);
+            try {
+                queryBuilder.where().between("createdTs", currentTs, yestTs);
+                queryBuilder.where().eq("isDeleted", false);
+                queryBuilder.orderBy("createdTs", true);
+                final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
                 TableRow tableRow = new TableRow(this);
                 TextView nameText = new TextView(this);
                 nameText.setText("Name");
@@ -72,63 +70,28 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                 tableRow.addView(cellPhoneText);
                 tableRow.addView(waitingTimeText);
                 tableRow.addView(estWaitingTimeText);
-
                 waitingCustomersTable.addView(tableRow);
 
-                for(;i<waitingCustomerList.size();i++) {
-                    tableRow = new TableRow(this);
-                    tableRow.setId(i);
-                    WaitingCustomer waitingCustomer = waitingCustomerList.get(i);
-                    TextView nameValue = new TextView(this);
-                    nameValue.setText(waitingCustomer.getName());
-                    TextView totalPeopleValue = new TextView(this);
-                    totalPeopleValue.setText(waitingCustomer.getCellNumber());
-                    TextView waitingTimeValue = new TextView(this);
-                    waitingTimeValue.setText("0.0");
-                    TextView estWaitingTimeValue = new TextView(this);
-                    estWaitingTimeValue.setText(waitingCustomer.getEstimatedWaitingTime());
-                    ImageButton notifyImage = new ImageButton(this);
-                    notifyImage.setImageResource(R.drawable.msg_icon);
-                    Button removeButton = new Button(this);
-                    removeButton.setText("Remove");
-                    removeButton.setId(i);
-                    removeButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            WaitingCustomer customerToBeRemoved = waitingCustomerList.get(view.getId());
-                            try {
-                                UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
-                                updateBuilder.where().eq("id", customerToBeRemoved.getId());
-                                updateBuilder.updateColumnValue("isDeleted",true);
-                                int rowCountUpdated = updateBuilder.update();
-                                //TODO log rowCount
-                            }
-                            catch(SQLException e) {
-                                e.printStackTrace();
-                                //TODO logging
-                            }
-                            TableRow rowToBeRemoved = (TableRow) waitingCustomersTable.findViewById(view.getId());
-                            rowToBeRemoved.startAnimation(AnimationUtils.loadAnimation(ViewWaitingCustomersActivity.this, android.R.anim.fade_out));
-                            rowToBeRemoved.setVisibility(View.GONE);
-                            waitingCustomersTable.removeViewAt(view.getId());
-                        }
-                    });
-
-                    tableRow.addView(nameValue);
-                    tableRow.addView(totalPeopleValue);
-                    tableRow.addView(waitingTimeValue);
-                    tableRow.addView(estWaitingTimeValue);
-                    tableRow.addView(notifyImage);
-                    tableRow.addView(removeButton);
-
-                    waitingCustomersTable.addView(tableRow);
+                if (waitingCustomerList.size() > 0) {
+                    int i = 0;
+                    for (; i < waitingCustomerList.size(); i++) {
+                        addRow(waitingCustomerList.get(i),i);
+                    }
                 }
+            } catch (SQLException e) {
+                //TODO logging
+                e.printStackTrace();
             }
-
         }
-        catch(SQLException e) {
-            //TODO logging
-            e.printStackTrace();
+        Intent i = getIntent();
+        if(i.getExtras()!=null) {
+            try {
+                WaitingCustomer newWaitingCustomer = (WaitingCustomer) i.getExtras().getSerializable("waitingCustomer");
+                addRow(newWaitingCustomer, waitingCustomersTable.getChildCount() + 1);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -153,5 +116,58 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addButtonListener(View v) {
+        Intent addScreen = new Intent(this, AddWaitingCustomerActivity.class);
+        startActivity(addScreen);
+    }
+
+    public void addRow(final WaitingCustomer waitingCustomer, int index) {
+        TableRow tableRow = new TableRow(this);
+        tableRow.setId(index);
+        TextView nameValue = new TextView(this);
+        nameValue.setText(waitingCustomer.getName());
+        TextView totalPeopleValue = new TextView(this);
+        totalPeopleValue.setText(waitingCustomer.getCellNumber());
+        TextView waitingTimeValue = new TextView(this);
+        waitingTimeValue.setText("0.0");
+        TextView estWaitingTimeValue = new TextView(this);
+        estWaitingTimeValue.setText(waitingCustomer.getEstimatedWaitingTime());
+        ImageButton notifyImage = new ImageButton(this);
+        notifyImage.setImageResource(R.drawable.msg_icon);
+        notifyImage.setMaxHeight(2);
+        notifyImage.setMaxWidth(2);
+        Button removeButton = new Button(this);
+        removeButton.setText("Remove");
+        removeButton.setId(index);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                    updateBuilder.where().eq("id", waitingCustomer.getId());
+                    updateBuilder.updateColumnValue("isDeleted", true);
+                    int rowCountUpdated = updateBuilder.update();
+                    //TODO log rowCount
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    //TODO logging
+                }
+                TableRow rowToBeRemoved = (TableRow) waitingCustomersTable.findViewById(view.getId());
+                rowToBeRemoved.startAnimation(AnimationUtils.loadAnimation(ViewWaitingCustomersActivity.this, android.R.anim.fade_out));
+                rowToBeRemoved.setVisibility(View.GONE);
+                waitingCustomersTable.removeViewAt(view.getId());
+            }
+        });
+
+        tableRow.addView(nameValue);
+        tableRow.addView(totalPeopleValue);
+        tableRow.addView(waitingTimeValue);
+        tableRow.addView(estWaitingTimeValue);
+        tableRow.addView(notifyImage);
+        tableRow.addView(removeButton);
+
+        waitingCustomersTable.addView(tableRow);
     }
 }

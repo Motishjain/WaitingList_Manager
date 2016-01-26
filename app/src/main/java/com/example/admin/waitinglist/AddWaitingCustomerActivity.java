@@ -1,5 +1,6 @@
 package com.example.admin.waitinglist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -57,7 +58,9 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                     e.printStackTrace();
                     //TODO logging
                 }
-
+                Intent viewScreen = new Intent(AddWaitingCustomerActivity.this, ViewWaitingCustomersActivity.class);
+                viewScreen.putExtra("waitingCustomer", waitingCustomer);
+                startActivity(viewScreen);
             }
         });
     }
