@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">WaitingList Manager</string>
+    <string name="add_waiting_customer">Add Waiting Customer</string>
+    <string name="waiting_customer">Waiting Customers</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 

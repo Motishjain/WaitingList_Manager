@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 
 @DatabaseTable(tableName = "WAITING_CUSTOMER")
-public class WaitingCustomer {
+public class WaitingCustomer implements Serializable {
 
     @DatabaseField (generatedId = true)
     private Integer id;
