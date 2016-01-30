@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".HomePageActivity">
+
+    <ImageView
+        android:src="@drawable/urban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hotelimage"
+        android:scaleType="center"
+        android:layout_alignParentTop="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/hometext"
+        android:layout_toEndOf="@id/hotelimage"
+        android:layout_toRightOf="@id/hotelimage"
+        android:text="@string/welcomestring"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="#3E2723"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnAddCustomer"
+        android:id="@+id/buttonAdd"
+        android:layout_below="@id/hotelimage"
+        android:layout_marginTop="40dp"
+
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnViewCustomers"
+        android:id="@+id/buttonView"
+        android:layout_below="@id/buttonAdd"
+        android:layout_marginTop="30dp"
+
+
+        />
+
+
+
+</RelativeLayout>
