@@ -1,7 +1,5 @@
 package com.example.admin.waitinglist;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -38,53 +35,52 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_waiting_customers);
-        if(savedInstanceState == null) {
-            try {
-                waitingCustomerDao = getHelper().getWaitingCustomerDao();
-            } catch (Exception e) {
-                e.printStackTrace();
-                //TODO logging
-            }
-            queryBuilder = waitingCustomerDao.queryBuilder();
-            Calendar calendar = Calendar.getInstance();
-            Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
-            calendar.add(Calendar.DATE, -1);
-            Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
-            waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);
-            try {
-                queryBuilder.where().between("createdTs", currentTs, yestTs);
-                queryBuilder.where().eq("isDeleted", false);
-                queryBuilder.orderBy("createdTs", true);
-                final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
-                TableRow tableRow = new TableRow(this);
-                TextView nameText = new TextView(this);
-                nameText.setText("Name");
-                TextView cellPhoneText = new TextView(this);
-                cellPhoneText.setText("Total people");
-                TextView waitingTimeText = new TextView(this);
-                waitingTimeText.setText("Waiting time");
-                TextView estWaitingTimeText = new TextView(this);
-                estWaitingTimeText.setText("Estimated Waiting");
-
-                tableRow.addView(nameText);
-                tableRow.addView(cellPhoneText);
-                tableRow.addView(waitingTimeText);
-                tableRow.addView(estWaitingTimeText);
-                waitingCustomersTable.addView(tableRow);
-
-                if (waitingCustomerList.size() > 0) {
-                    int i = 0;
-                    for (; i < waitingCustomerList.size(); i++) {
-                        addRow(waitingCustomerList.get(i),i);
-                    }
-                }
-            } catch (SQLException e) {
-                //TODO logging
-                e.printStackTrace();
-            }
+        try {
+            waitingCustomerDao = getHelper().getWaitingCustomerDao();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //TODO logging
         }
-        Intent i = getIntent();
-        if(i.getExtras()!=null) {
+        queryBuilder = waitingCustomerDao.queryBuilder();
+        Calendar calendar = Calendar.getInstance();
+        Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
+        calendar.add(Calendar.DATE, -1);
+        Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
+        waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);
+        try {
+            queryBuilder.where().between("createdTs", currentTs, yestTs);
+            queryBuilder.where().eq("isDeleted", false);
+            queryBuilder.orderBy("createdTs", true);
+            final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
+            TableRow tableRow = new TableRow(this);
+            TextView nameText = new TextView(this);
+            nameText.setText("Name");
+            TextView cellPhoneText = new TextView(this);
+            cellPhoneText.setText("Total people");
+            TextView waitingTimeText = new TextView(this);
+            waitingTimeText.setText("Waiting time");
+            TextView estWaitingTimeText = new TextView(this);
+            estWaitingTimeText.setText("Estimated Waiting");
+
+            tableRow.addView(nameText);
+            tableRow.addView(cellPhoneText);
+            tableRow.addView(waitingTimeText);
+            tableRow.addView(estWaitingTimeText);
+            waitingCustomersTable.addView(tableRow);
+
+            if (waitingCustomerList.size() > 0) {
+                int i = 0;
+                for (; i < waitingCustomerList.size(); i++) {
+                    addRow(waitingCustomerList.get(i),i);
+                }
+            }
+        } catch (SQLException e) {
+            //TODO logging
+            e.printStackTrace();
+        }
+        /*
+            Intent i = getIntent();
+            if(i.getExtras()!=null) {
             try {
                 WaitingCustomer newWaitingCustomer = (WaitingCustomer) i.getExtras().getSerializable("waitingCustomer");
                 addRow(newWaitingCustomer, waitingCustomersTable.getChildCount() + 1);
@@ -92,7 +88,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             catch(Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
 
@@ -157,7 +153,8 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                 TableRow rowToBeRemoved = (TableRow) waitingCustomersTable.findViewById(view.getId());
                 rowToBeRemoved.startAnimation(AnimationUtils.loadAnimation(ViewWaitingCustomersActivity.this, android.R.anim.fade_out));
                 rowToBeRemoved.setVisibility(View.GONE);
-                waitingCustomersTable.removeViewAt(view.getId());
+                
+                waitingCustomersTable.removeView(view);
             }
         });
 
