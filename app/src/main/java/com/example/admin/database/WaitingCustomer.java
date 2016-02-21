@@ -5,7 +5,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -15,6 +14,20 @@ import java.util.Date;
 @DatabaseTable(tableName = "WAITING_CUSTOMER")
 public class WaitingCustomer implements Serializable {
 
+    public WaitingCustomer(Integer id, String name, String contactNumber, String totalPeople, String estWaitingTime, String totalWaitingTime, String notes) {
+        this.id = id;
+        this.name = name;
+        this.contactNumber = contactNumber;
+        this.totalPeople = totalPeople;
+        this.estWaitingTime = estWaitingTime;
+        this.totalWaitingTime = totalWaitingTime;
+        this.notes = notes;
+    }
+
+    public WaitingCustomer() {
+
+    }
+
     @DatabaseField (generatedId = true)
     private Integer id;
 
@@ -22,7 +35,7 @@ public class WaitingCustomer implements Serializable {
     private String name;
 
     @DatabaseField
-    private String cellNumber;
+    private String contactNumber;
 
     @DatabaseField
     private String totalPeople;
@@ -30,14 +43,19 @@ public class WaitingCustomer implements Serializable {
     @DatabaseField
     private String waitingTime;
 
+    private String totalWaitingTime;
+
     @DatabaseField
-    private String estimatedWaitingTime;
+    private String estWaitingTime;
 
     @DatabaseField(dataType = DataType.DATE_LONG)
     private Date createdTs;
 
     @DatabaseField
     private boolean isDeleted;
+
+    @DatabaseField
+    private String notes;
 
     public String getName() {
         return name;
@@ -47,12 +65,12 @@ public class WaitingCustomer implements Serializable {
         this.name = name;
     }
 
-    public String getCellNumber() {
-        return cellNumber;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setCellNumber(String cellNumber) {
-        this.cellNumber = cellNumber;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getTotalPeople() {
@@ -71,12 +89,12 @@ public class WaitingCustomer implements Serializable {
         this.waitingTime = waitingTime;
     }
 
-    public String getEstimatedWaitingTime() {
-        return estimatedWaitingTime;
+    public String getEstWaitingTime() {
+        return estWaitingTime;
     }
 
-    public void setEstimatedWaitingTime(String estimatedWaitingTime) {
-        this.estimatedWaitingTime = estimatedWaitingTime;
+    public void setEstWaitingTime(String estWaitingTime) {
+        this.estWaitingTime = estWaitingTime;
     }
 
     public Date getCreatedTs() {
@@ -101,5 +119,26 @@ public class WaitingCustomer implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+
+    }
+
+    public String getTotalWaitingTime() {
+        return totalWaitingTime;
+    }
+
+    public void setTotalWaitingTime(String totalWaitingTime) {
+        this.totalWaitingTime = totalWaitingTime;
     }
 }

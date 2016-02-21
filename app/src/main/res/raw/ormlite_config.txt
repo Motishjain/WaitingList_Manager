@@ -1,5 +1,5 @@
 #
-# generated on 2016/01/26 07:05:51
+# generated on 2016/02/21 06:13:33
 #
 # --table-start--
 dataClass=com.example.admin.database.WaitingCustomer
@@ -13,7 +13,7 @@ generatedId=true
 fieldName=name
 # --field-end--
 # --field-start--
-fieldName=cellNumber
+fieldName=contactNumber
 # --field-end--
 # --field-start--
 fieldName=totalPeople
@@ -22,7 +22,7 @@ fieldName=totalPeople
 fieldName=waitingTime
 # --field-end--
 # --field-start--
-fieldName=estimatedWaitingTime
+fieldName=estWaitingTime
 # --field-end--
 # --field-start--
 fieldName=createdTs
@@ -30,6 +30,9 @@ dataPersister=DATE_LONG
 # --field-end--
 # --field-start--
 fieldName=isDeleted
+# --field-end--
+# --field-start--
+fieldName=notes
 # --field-end--
 # --table-fields-end--
 # --table-end--

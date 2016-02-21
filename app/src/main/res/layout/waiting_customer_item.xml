@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/waitingCustomerItem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:gravity="left"
+            android:text="Ali"
+            android:textColor="#776a69"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/totalPeople"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:gravity="left"
+            android:text="5"
+            android:textColor="#776a69"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/estWaitingTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:gravity="left"
+            android:text="20"
+            android:textColor="#776a69"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/totalWaitingTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:gravity="left"
+            android:text="total"
+            android:textColor="#776a69"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif"
+            android:gravity="left"
+            android:text="notesView"
+            android:textColor="#776a69"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/button_cont"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/notify"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/message_24"
+                android:gravity="left"/>
+
+            <Button
+                android:id="@+id/delete"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/tick_24"
+                android:gravity="left"
+                ></Button>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/waitingCustomerItem"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#776a69"></TextView>
+</RelativeLayout>

@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AddWaitingCustomerActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,113 +11,130 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/PrimaryColor"
-        local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         local:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        >
+        local:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <ImageView
+            android:id="@+id/add_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/back_32"
-            android:id="@+id/add_back"
-            />
+            android:background="@drawable/back_32" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
             android:text="Add Customer"
             android:textColor="#fff"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="35dp"
-            />
-        </android.support.v7.widget.Toolbar>
+            android:textStyle="bold" />
+    </android.support.v7.widget.Toolbar>
+
     <android.support.design.widget.TextInputLayout
-        android:layout_height="wrap_content"
+        android:id="@+id/inputNameLayout"
         android:layout_width="match_parent"
-        android:id="@+id/namelbl"
+        android:layout_height="wrap_content"
         android:layout_below="@id/add_toolbar"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp"
-    >
+        android:layout_marginTop="20dp">
+
         <EditText
-            android:layout_height="wrap_content"
+            android:id="@+id/inputNameText"
             android:layout_width="match_parent"
-            android:hint="Enter Name here"
-            android:textColor="@color/PrimaryColor"
-            android:id="@+id/name"/>
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:textColor="@color/PrimaryColor" />
     </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
-        android:layout_height="wrap_content"
+        android:id="@+id/inputContactNumberLayout"
         android:layout_width="match_parent"
-        android:id="@+id/celllbl"
-        android:layout_below="@id/namelbl"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputNameLayout"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp"
-        >
-    <EditText
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:hint="Enter Contact No here"
-        android:id="@+id/cellNumber"
-        android:inputType="phone"
-        android:maxEms="10"
-        android:textColor="@color/PrimaryColor"
-        android:maxLength="10"/>
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/inputContactNumberText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact Number"
+            android:inputType="phone"
+            android:maxEms="10"
+            android:maxLength="10"
+            android:textColor="@color/PrimaryColor" />
     </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
-        android:layout_height="wrap_content"
+        android:id="@+id/inputTotalPeopleLayout"
         android:layout_width="match_parent"
-        android:id="@+id/peoplelbl"
-        android:layout_below="@id/celllbl"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputContactNumberLayout"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp"
-        >
-    <EditText
-        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/inputTotalPeopleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Total number of people"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textColor="@color/PrimaryColor" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputNotesLayout"
         android:layout_width="match_parent"
-        android:hint="Enter Total number of people"
-        android:id="@+id/totalPeople"
-        android:inputType="number"
-        android:textColor="@color/PrimaryColor"
-        android:maxLength="3"
-        />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputTotalPeopleLayout"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/inputNotesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Special Notes"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textColor="@color/PrimaryColor" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:weightSum="2"
-        >
+        android:weightSum="2">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
             android:id="@+id/reset_button"
-            android:layout_weight="1"
-            android:layout_margin="20dp"
-            android:textAllCaps="false"
-            android:background="@drawable/button_flat_selector"
-            android:textColor="#fff"
             style="@style/myButton"
-            android:elevation="3dp"
-            />
-
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next"
-            android:id="@+id/next_button"
             android:layout_margin="20dp"
-            android:textAllCaps="false"
             android:layout_weight="1"
             android:background="@drawable/button_flat_selector"
+            android:elevation="3dp"
+            android:text="Reset"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/next_button"
             style="?attr/selectableItemBackground"
-            android:textColor="#fff"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_flat_selector"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
     </LinearLayout>
 
 </RelativeLayout>

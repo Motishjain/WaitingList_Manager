@@ -91,15 +91,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact No"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:textColor="#fff"
-            android:fontFamily="sans-serif"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="People"
             android:layout_weight="1"
             android:textSize="16sp"
@@ -109,7 +100,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Est Time"
+            android:text="Estimated Time"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textColor="#fff"
@@ -118,7 +109,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Time"
+            android:text="Actual Waiting Time"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:fontFamily="sans-serif"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
             android:layout_weight="1"
             android:textSize="16sp"
             android:textColor="#fff"
@@ -145,18 +145,6 @@
         android:layout_below="@id/title_bar"
         >
     </android.support.v7.widget.RecyclerView>
-<!--</android.support.v4.widget.SwipeRefreshLayout>-->
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="35dp"
-        />-->
 
 </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
