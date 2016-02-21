@@ -32,6 +32,7 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         this.estWaitingTimeView = estWaitingTimeView;
         this.totalWaitingTimeView = totalWaitingTimeView;
         this.notesView = notesView;
+        this.notifyButton = notifyButton;
         this.cancelButton = cancelButton;
     }
 

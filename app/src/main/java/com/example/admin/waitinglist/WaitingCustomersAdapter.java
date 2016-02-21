@@ -72,10 +72,11 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                 HttpPost postMethod = new HttpPost("http://smsgateway.me/api/v3/messages/send");
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
                 nameValuePairs.add(new BasicNameValuePair("email", "motishj@ymail.com"));
-                nameValuePairs.add(new BasicNameValuePair("password", "sangam1$"));
+                nameValuePairs.add(new BasicNameValuePair("password", "sangam123"));
                 nameValuePairs.add(new BasicNameValuePair("device", "18283"));
                 nameValuePairs.add(new BasicNameValuePair("number", contactNumber));
-                nameValuePairs.add(new BasicNameValuePair("message", "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka. We are ready to serve you. Please reply 1 to confirm your table."));
+                nameValuePairs.add(new BasicNameValuePair("message", "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka." +
+                        " We are ready to serve you. Please reply 1 to confirm your table."));
                 try {
                     postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     httpclient.execute(postMethod, new ResponseHandler<HttpResponse>() {
@@ -105,6 +106,9 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                 } catch (ClientProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             }

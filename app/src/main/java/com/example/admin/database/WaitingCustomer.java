@@ -28,7 +28,7 @@ public class WaitingCustomer implements Serializable {
 
     }
 
-    @DatabaseField (generatedId = true)
+    @DatabaseField(generatedId = true)
     private Integer id;
 
     @DatabaseField
@@ -39,9 +39,6 @@ public class WaitingCustomer implements Serializable {
 
     @DatabaseField
     private String totalPeople;
-
-    @DatabaseField
-    private String waitingTime;
 
     private String totalWaitingTime;
 
@@ -79,14 +76,6 @@ public class WaitingCustomer implements Serializable {
 
     public void setTotalPeople(String totalPeople) {
         this.totalPeople = totalPeople;
-    }
-
-    public String getWaitingTime() {
-        return waitingTime;
-    }
-
-    public void setWaitingTime(String waitingTime) {
-        this.waitingTime = waitingTime;
     }
 
     public String getEstWaitingTime() {

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.example.admin.database.WaitingCustomer;
 
 import com.example.admin.database.DBHelper;
@@ -27,7 +28,7 @@ import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 
 public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
 
-    EditText name, cellNumber, totalPeople, notes;
+    EditText name, contactNumber, totalPeople, notes;
     ImageView back_btn;
     Toolbar mToolbar;
     String est = "";
@@ -39,7 +40,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_waiting_customer);
         name = (EditText) findViewById(R.id.inputNameText);
-        cellNumber = (EditText) findViewById(R.id.inputContactNumberText);
+        contactNumber = (EditText) findViewById(R.id.inputContactNumberText);
         totalPeople = (EditText) findViewById(R.id.inputTotalPeopleText);
         notes = (EditText) findViewById(R.id.inputNotesText);
         back_btn = (ImageView) findViewById(R.id.add_back);
@@ -83,7 +84,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
             @Override
             public void onClick(View v) {
                 totalPeople.setText("");
-                cellNumber.setText("");
+                contactNumber.setText("");
                 name.setText("");
                 notes.setText("");
                 inputNameLayout.setError(null);
@@ -101,9 +102,9 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                     totalPeople.findFocus();
                     flag = true;
                 }
-                if (cellNumber.getText().toString().equals("")) {
+                if (contactNumber.getText().toString().equals("")) {
                     inputContactNumberLayout.setError("Please enter contactNumber no");
-                    cellNumber.findFocus();
+                    contactNumber.findFocus();
                     flag = true;
                 }
                 if (name.getText().toString().equals("")) {
@@ -122,13 +123,13 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                                     est = "" + numberPicker.getValue();
                                     WaitingCustomer waitingCustomer = new WaitingCustomer();
                                     waitingCustomer.setName(name.getText().toString());
-                                    waitingCustomer.setContactNumber(cellNumber.getText().toString());
+                                    waitingCustomer.setContactNumber(contactNumber.getText().toString());
                                     waitingCustomer.setTotalPeople(totalPeople.getText().toString());
                                     //TODO add a new screen to enter waiting time
                                     waitingCustomer.setEstWaitingTime(est);
-                                    waitingCustomer.setNotes(notes.getText().toString());
                                     waitingCustomer.setCreatedTs(new Timestamp(Calendar.getInstance().getTime().getTime()));
                                     waitingCustomer.setDeleted(false);
+                                    waitingCustomer.setNotes(notes.getText().toString());
                                     try {
                                         waitingCustomerDao.create(waitingCustomer);
                                     } catch (Exception e) {
