@@ -4,24 +4,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/add_waiting_customer"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MyMaterialTheme.Base" >
         <activity
-            android:name="com.example.admin.waitinglist.ViewWaitingCustomersActivity"
+            android:name="com.example.admin.waitinglist.HomePageActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/waiting_customer" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.example.admin.waitinglist.AddWaitingCustomerActivity"
-            android:label="@string/add_waiting_customer" >
+            android:label="@string/add_waiting_customer"
+            android:windowSoftInputMode="adjustResize"
+            >
         </activity>
+        <activity
+            android:name="com.example.admin.waitinglist.ViewWaitingCustomersActivity"
+            android:configChanges="orientation|screenSize"></activity>
     </application>
 
 </manifest>

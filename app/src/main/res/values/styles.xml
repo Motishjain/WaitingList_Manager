@@ -4,5 +4,37 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/PrimaryColor</item>
+        <item name="colorPrimaryDark">@color/SecondaryColor</item>
+        <item name="colorAccent">@color/AscentColor</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
 
+    <style name="FabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/spacing_large</item>
+        <item name="android:src">@drawable/btn_back</item>
+        <item name="borderWidth">0dp</item>
+        <item name="elevation">6dp</item>
+        <item name="pressedTranslationZ">12dp</item>
+        <item name="rippleColor">@android:color/white</item>
+    </style>
+
+    <style name="AppToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="myButton" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:textColor">#fff</item>
+        <item name="android:background">?android:attr/colorButtonNormal</item>
+    </style>
+    <!--<style name="myButton" parent="android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/raised_button</item>
+    </style>-->
 </resources>

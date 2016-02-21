@@ -2,15 +2,24 @@ package com.example.admin.waitinglist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.database.DBHelper;
 import com.example.admin.database.WaitingCustomer;
@@ -21,63 +30,92 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import com.example.admin.waitinglist.recycler_adapter;
 
 
 public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> {
 
-    Dao<WaitingCustomer,Integer> waitingCustomerDao;
-    QueryBuilder<WaitingCustomer,Integer> queryBuilder;
+    Dao<WaitingCustomer, Integer> waitingCustomerDao;
+    QueryBuilder<WaitingCustomer, Integer> queryBuilder;
+    ArrayList<bean_item> items;
     TableLayout waitingCustomersTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_waiting_customers);
+
+        ImageView add_btn = (ImageView) findViewById(R.id.fab_add);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), AddWaitingCustomerActivity.class);
+                startActivity(i);
+            }
+        });
+        CardView card = (CardView)findViewById(R.id.title_bar);
+        card.setPreventCornerOverlap(false);
+        final SwipeRefreshLayout swipe = (SwipeRefreshLayout)findViewById(R.id.swip_bar);
+/*        swipe.setEnabled(false);*/
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipe.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadItems();
+                        swipe.setRefreshing(false);
+                        /*swipe.setEnabled(false);*/
+                    }
+                }, 3000);
+            }
+        });
+        swipe.setColorSchemeColors(getResources().getColor(R.color.refresh_progress_1),
+                getResources().getColor(R.color.refresh_progress_2),
+                getResources().getColor(R.color.refresh_progress_3));
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.view_cont);
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy <= 1) {
+                    swipe.setEnabled(true);
+                } else {
+                    swipe.setEnabled(false);
+                }
+            }
+        });
         try {
             waitingCustomerDao = getHelper().getWaitingCustomerDao();
         } catch (Exception e) {
             e.printStackTrace();
             //TODO logging
         }
-        queryBuilder = waitingCustomerDao.queryBuilder();
-        Calendar calendar = Calendar.getInstance();
-        Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
-        calendar.add(Calendar.DATE, -1);
-        Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
-        waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);
-        try {
-            queryBuilder.where().between("createdTs", currentTs, yestTs);
-            queryBuilder.where().eq("isDeleted", false);
-            queryBuilder.orderBy("createdTs", true);
-            final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
-            TableRow tableRow = new TableRow(this);
-            TextView nameText = new TextView(this);
-            nameText.setText("Name");
-            TextView cellPhoneText = new TextView(this);
-            cellPhoneText.setText("Total people");
-            TextView waitingTimeText = new TextView(this);
-            waitingTimeText.setText("Waiting time");
-            TextView estWaitingTimeText = new TextView(this);
-            estWaitingTimeText.setText("Estimated Waiting");
 
-            tableRow.addView(nameText);
-            tableRow.addView(cellPhoneText);
-            tableRow.addView(waitingTimeText);
-            tableRow.addView(estWaitingTimeText);
-            waitingCustomersTable.addView(tableRow);
+        ImageView back_btn = (ImageView) findViewById(R.id.view_back);
 
-            if (waitingCustomerList.size() > 0) {
-                int i = 0;
-                for (; i < waitingCustomerList.size(); i++) {
-                    addRow(waitingCustomerList.get(i),i);
-                }
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewWaitingCustomersActivity.this.finish();
             }
-        } catch (SQLException e) {
-            //TODO logging
-            e.printStackTrace();
-        }
+        });
+
+        loadItems();
         /*
             Intent i = getIntent();
             if(i.getExtras()!=null) {
@@ -91,6 +129,58 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         }*/
     }
 
+    public void loadItems(){
+        queryBuilder = waitingCustomerDao.queryBuilder();
+        Calendar calendar = Calendar.getInstance();
+        Timestamp currentTs = new Timestamp(calendar.getTime().getTime());
+        calendar.add(Calendar.DATE, -1);
+        Timestamp yestTs = new Timestamp(calendar.getTime().getTime());
+        /*waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);*/
+        try {
+            queryBuilder.where().between("createdTs", currentTs, yestTs);
+            queryBuilder.where().eq("isDeleted", false);
+            queryBuilder.orderBy("createdTs", true);
+            final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
+/*
+
+            TableRow tableRow = new TableRow(this);
+
+            CardView cardView = new CardView(this);
+            cardView.setCardBackgroundColor(android.R.color.white);
+
+            TextView nameText = new TextView(this);
+            nameText.setText("Name");
+            TextView cellPhoneText = new TextView(this);
+            cellPhoneText.setText("Total people");
+            TextView waitingTimeText = new TextView(this);
+            waitingTimeText.setText("Waiting time");
+            TextView estWaitingTimeText = new TextView(this);
+            estWaitingTimeText.setText("Estimated Waiting");
+
+            cardView.addView(nameText);
+            cardView.addView(cellPhoneText);
+            cardView.addView(waitingTimeText);
+            cardView.addView(estWaitingTimeText);
+            tableRow.addView(cardView);
+            waitingCustomersTable.addView(tableRow);*/
+
+            items = new ArrayList<>();
+            if (waitingCustomerList.size() > 0) {
+                int i = 0;
+                for (; i < waitingCustomerList.size(); i++) {
+                    addRow(waitingCustomerList.get(i), i);
+                }
+            }
+
+            recycler_adapter adpt = new recycler_adapter(items, waitingCustomerDao);
+            RecyclerView r_view = (RecyclerView) findViewById(R.id.view_cont);
+            r_view.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
+            r_view.setAdapter(adpt);
+        } catch (SQLException e) {
+            //TODO logging
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,7 +210,20 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
     }
 
     public void addRow(final WaitingCustomer waitingCustomer, int index) {
-        TableRow tableRow = new TableRow(this);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date1 = new Timestamp(Calendar.getInstance().getTime().getTime());
+        Date date = waitingCustomer.getCreatedTs();
+        /*Date date1 = new Date();*/
+        long min = (date1.getTime() - date.getTime()) / (60 * 1000);
+        items.add(new bean_item("" + waitingCustomer.getId(),
+                waitingCustomer.getName(),
+                waitingCustomer.getCellNumber(),
+                waitingCustomer.getTotalPeople(),
+                waitingCustomer.getEstimatedWaitingTime(),
+                ""+min
+        ));
+        /*TableRow tableRow = new TableRow(this);
         tableRow.setId(index);
         TextView nameValue = new TextView(this);
         nameValue.setText(waitingCustomer.getName());
@@ -153,7 +256,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                 TableRow rowToBeRemoved = (TableRow) waitingCustomersTable.findViewById(view.getId());
                 rowToBeRemoved.startAnimation(AnimationUtils.loadAnimation(ViewWaitingCustomersActivity.this, android.R.anim.fade_out));
                 rowToBeRemoved.setVisibility(View.GONE);
-                
+
                 waitingCustomersTable.removeView(view);
             }
         });
@@ -166,5 +269,6 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         tableRow.addView(removeButton);
 
         waitingCustomersTable.addView(tableRow);
+    */
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="PrimaryColor">#69c9cd</color>
+    <color name="SecondaryColor">#69c9cd</color>
+    <color name="AscentColor">#69c9cd</color>
+    <color name="refresh_progress_1">#FF0000</color>
+    <color name="refresh_progress_2">#00FF00</color>
+    <color name="refresh_progress_3">#0000FF</color>
+    <color name="white">#fff</color>
+</resources>

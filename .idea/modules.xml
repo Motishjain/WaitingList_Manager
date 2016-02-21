@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WaitingList Manager.iml" filepath="$PROJECT_DIR$/WaitingList Manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WaitingList_Manager.iml" filepath="$PROJECT_DIR$/WaitingList_Manager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/materialnumberpicker/materialnumberpicker.iml" filepath="$PROJECT_DIR$/materialnumberpicker/materialnumberpicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample/sample.iml" filepath="$PROJECT_DIR$/sample/sample.iml" />
     </modules>
   </component>
 </project>
-

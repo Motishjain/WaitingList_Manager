@@ -1,28 +1,56 @@
 package com.example.admin.waitinglist;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class HomePageActivity extends Activity {
+public class HomePageActivity extends AppCompatActivity {
     static String TAG="Home Page Activity";
+    Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
+        /*toolBarActionImplementation();*/
         Button btnadd=(Button)(findViewById(R.id.buttonAdd));
-        btnadd.setOnClickListener(new View.OnClickListener(){
+        btnadd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent addIntent = new Intent(getApplicationContext(), AddWaitingCustomerActivity.class);
+                startActivity(addIntent);
+            }
+
+        });
+        Button btnview=(Button)(findViewById(R.id.buttonView));
+        btnview.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Log.i(TAG, "Add Button was clicked");
+                Intent viewIntent = new Intent(getApplicationContext(),ViewWaitingCustomersActivity.class);
+                startActivity(viewIntent);
+            }
 
+        });
+    }
+
+    private void toolBarActionImplementation()
+    {
+        /*final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setTitle("Waiting List Customer");
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+        {
+            actionBar.setTitle("Waiting List Customer");
         }
-
-    });
+        mToolbar = toolbar;*/
     }
 
     @Override
