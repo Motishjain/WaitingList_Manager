@@ -1,24 +1,31 @@
 package com.example.admin.waitinglist;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsMessage;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.example.admin.database.DBHelper;
 import com.example.admin.database.WaitingCustomer;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -32,9 +39,21 @@ import java.util.List;
 public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> {
 
     Dao<com.example.admin.database.WaitingCustomer, Integer> waitingCustomerDao;
+
     QueryBuilder<com.example.admin.database.WaitingCustomer, Integer> queryBuilder;
     ArrayList<WaitingCustomer> items;
-    TableLayout waitingCustomersTable;
+    RecyclerView waitingCustomersView;
+    private static ViewWaitingCustomersActivity inst;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        inst = this;
+    }
+
+    public static ViewWaitingCustomersActivity instance() {
+        return inst;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +146,31 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                 }
             }
             WaitingCustomersAdapter adpt = new WaitingCustomersAdapter(items, waitingCustomerDao);
-            RecyclerView waitingCustomersView = (RecyclerView) findViewById(R.id.view_cont);
+            waitingCustomersView = (RecyclerView) findViewById(R.id.view_cont);
             waitingCustomersView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
             waitingCustomersView.setAdapter(adpt);
         } catch (SQLException e) {
             //TODO logging
             e.printStackTrace();
+        }
+    }
+
+    public void replyReceived(String contactNumber, String response) {
+        int i = 0;
+        for(WaitingCustomer waitingCustomer:items) {
+            if(contactNumber.contains(waitingCustomer.getContactNumber()) && response!=null && response.trim().equals("1")){
+                try {
+                    UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                    updateBuilder.where().eq("id", waitingCustomer.getId());
+                    updateBuilder.updateColumnValue("confirmed", true);
+                    updateBuilder.update();
+                }
+                catch (SQLException e){
+                    e.printStackTrace();
+                }
+                waitingCustomersView.getAdapter().notifyItemChanged(i);
+            }
+            i++;
         }
     }
 

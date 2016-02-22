@@ -39,20 +39,6 @@ public class HomePageActivity extends AppCompatActivity {
         });
     }
 
-    private void toolBarActionImplementation()
-    {
-        /*final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        toolbar.setTitle("Waiting List Customer");
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-        {
-            actionBar.setTitle("Waiting List Customer");
-        }
-        mToolbar = toolbar;*/
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

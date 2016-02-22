@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +16,8 @@ import com.example.admin.viewholder.WaitingCustomerRecordHolder;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -64,103 +52,83 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
         recordHolder.setEstWaitingTimeView(currentWaitingCustomer.getEstWaitingTime());
         recordHolder.setTotalWaitingTimeView(currentWaitingCustomer.getTotalWaitingTime());
         recordHolder.setNotesView(currentWaitingCustomer.getNotes());
+        if(currentWaitingCustomer.isDelayed()) {
+            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
+        }
+        else if(currentWaitingCustomer.isNotified()) {
+            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.YELLOW);
+        }
+        else if(currentWaitingCustomer.isConfirmed()) {
+            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.GREEN);
+        }
+
         recordHolder.notifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String contactNumber = currentWaitingCustomer.getContactNumber();
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost postMethod = new HttpPost("http://smsgateway.me/api/v3/messages/send");
-                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("email", "motishj@ymail.com"));
-                nameValuePairs.add(new BasicNameValuePair("password", "sangam123"));
-                nameValuePairs.add(new BasicNameValuePair("device", "18283"));
-                nameValuePairs.add(new BasicNameValuePair("number", contactNumber));
-                nameValuePairs.add(new BasicNameValuePair("message", "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka." +
-                        " We are ready to serve you. Please reply 1 to confirm your table."));
+                String message = "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka." +
+                        " We are ready to serve you. Please reply 1 to confirm your table.";
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(contactNumber, null, message, null, null);
                 try {
-                    postMethod.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    httpclient.execute(postMethod, new ResponseHandler<HttpResponse>() {
-                        @Override
-                        public HttpResponse handleResponse(HttpResponse httpResponse) throws ClientProtocolException, IOException {
-                            StatusLine statusLine = httpResponse.getStatusLine();
-                            if (statusLine.getStatusCode() == 200) {
-                                AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                                alert.setMessage("Success");
-                                alert.setMessage("Message Sent Successfully!");
-                                alert.setPositiveButton("Ok", null);
-                                alert.show();
-                            }
-                            else {
-                                AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                                alert.setMessage("Failure");
-                                alert.setMessage("Failed to send message!");
-                                alert.setPositiveButton("Ok", null);
-                                alert.show();
-                            }
-                            return httpResponse;
-                        }
-                    });
-
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                catch (Exception e) {
+                    UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                    updateBuilder.where().eq("id", currentWaitingCustomer.getId());
+                    updateBuilder.updateColumnValue("notified", true);
+                    updateBuilder.update();
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         });
+
         recordHolder.cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Do you want to delete this record?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
-                            updateBuilder.where().eq("id", currentWaitingCustomer.getId());
-                            updateBuilder.updateColumnValue("isDeleted", true);
-                            updateBuilder.update();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        Animation anim = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_out);
-                        anim.setDuration(1000);
-                        anim.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                                             builder.setTitle("Do you want to delete this record?");
+                                                             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(DialogInterface dialog, int which) {
+                                                                     try {
+                                                                         UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                                                                         updateBuilder.where().eq("id", currentWaitingCustomer.getId());
+                                                                         updateBuilder.updateColumnValue("isDeleted", true);
+                                                                         updateBuilder.update();
+                                                                     } catch (Exception e) {
+                                                                         e.printStackTrace();
+                                                                     }
+                                                                     Animation anim = AnimationUtils.loadAnimation(mContext, android.R.anim.fade_out);
+                                                                     anim.setDuration(1000);
+                                                                     anim.setAnimationListener(new Animation.AnimationListener() {
+                                                                         @Override
+                                                                         public void onAnimationStart(Animation animation) {
 
-                            }
+                                                                         }
 
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                itemList.remove(position);
-                                notifyItemRemoved(position);
-                            }
+                                                                         @Override
+                                                                         public void onAnimationEnd(Animation animation) {
+                                                                             itemList.remove(position);
+                                                                             notifyItemRemoved(position);
+                                                                         }
 
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
+                                                                         @Override
+                                                                         public void onAnimationRepeat(Animation animation) {
 
-                            }
-                        });
-                        recordHolder.startAnimation(anim);
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                                                                         }
+                                                                     });
+                                                                     recordHolder.startAnimation(anim);
+                                                                 }
+                                                             });
+                                                             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                });
-                builder.show();
-                }
-            }
-            );
+                                                                 }
+                                                             });
+                                                             builder.show();
+                                                         }
+                                                     }
+        );
         final android.os.Handler handler = new android.os.Handler();
         Runnable runnable = new Runnable() {
             @Override
@@ -169,8 +137,9 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                     String newTotalWaitingTime = String.valueOf(Long.parseLong(currentWaitingCustomer.getTotalWaitingTime()) + 1);
                     currentWaitingCustomer.setTotalWaitingTime(newTotalWaitingTime);
                     try {
-                        if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(currentWaitingCustomer.getEstWaitingTime())) {
-                            recordHolder.getWaitingCustomerItem().setBackgroundColor(Color.RED);
+                        if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(currentWaitingCustomer.getEstWaitingTime()) && !currentWaitingCustomer.isDelayed()) {
+                            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
+                            currentWaitingCustomer.setDelayed(true);
                         }
                     }
                     catch (Exception e) {

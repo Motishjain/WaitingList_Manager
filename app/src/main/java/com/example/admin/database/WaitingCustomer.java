@@ -49,10 +49,19 @@ public class WaitingCustomer implements Serializable {
     private Date createdTs;
 
     @DatabaseField
-    private boolean isDeleted;
+    private boolean deleted;
 
     @DatabaseField
     private String notes;
+
+    @DatabaseField
+    private boolean notified;
+
+    @DatabaseField
+    private boolean delayed;
+
+    @DatabaseField
+    private boolean confirmed;
 
     public String getName() {
         return name;
@@ -94,14 +103,6 @@ public class WaitingCustomer implements Serializable {
         this.createdTs = createdTs;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -118,16 +119,43 @@ public class WaitingCustomer implements Serializable {
         this.notes = notes;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-
-    }
-
     public String getTotalWaitingTime() {
         return totalWaitingTime;
     }
 
     public void setTotalWaitingTime(String totalWaitingTime) {
         this.totalWaitingTime = totalWaitingTime;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public boolean isNotified() {
+        return notified;
+    }
+
+    public void setNotified(boolean notified) {
+        this.notified = notified;
+    }
+
+    public boolean isDelayed() {
+        return delayed;
+    }
+
+    public boolean isConfirmed() {
+        return confirmed;
+    }
+
+    public void setDelayed(boolean delayed) {
+        this.delayed = delayed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        this.confirmed = confirmed;
     }
 }

@@ -16,15 +16,15 @@ import com.example.admin.waitinglist.R;
 public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
     TextView name, totalPeopleView, estWaitingTimeView, totalWaitingTimeView, notesView;
     View card;
-    LinearLayout waitingCustomerItem;
+    LinearLayout waitingCustomerItemLayout;
     public Button cancelButton;
     public Button notifyButton;
     public Context context;
 
-    public WaitingCustomerRecordHolder(LinearLayout waitingCustomerItem, Context context, final View itemView, TextView name, TextView totalPeopleView, TextView estWaitingTimeView, TextView totalWaitingTimeView, TextView notesView, Button notifyButton, Button cancelButton) {
+    public WaitingCustomerRecordHolder(LinearLayout waitingCustomerItemLayout, Context context, final View itemView, TextView name, TextView totalPeopleView, TextView estWaitingTimeView, TextView totalWaitingTimeView, TextView notesView, Button notifyButton, Button cancelButton) {
 
         super(itemView);
-        this.waitingCustomerItem = waitingCustomerItem;
+        this.waitingCustomerItemLayout = waitingCustomerItemLayout;
         this.context = context;
         card = itemView;
         this.name = name;
@@ -37,7 +37,7 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
     }
 
     public static WaitingCustomerRecordHolder newInstance(Context context, View parent) {
-        LinearLayout waitingCustomerItem = (LinearLayout) parent.findViewById(R.id.waitingCustomerItem);
+        LinearLayout waitingCustomerItemLayout = (LinearLayout) parent.findViewById(R.id.waitingCustomerItemLayout);
         TextView name = (TextView) parent.findViewById(R.id.name);
         TextView people = (TextView) parent.findViewById(R.id.totalPeople);
         TextView estWaitingTime = (TextView) parent.findViewById(R.id.estWaitingTime);
@@ -45,7 +45,7 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         TextView notes = (TextView) parent.findViewById(R.id.notes);
         Button notifyButton = (Button) parent.findViewById(R.id.notify);
         Button cancelButton = (Button) parent.findViewById(R.id.delete);
-        return new WaitingCustomerRecordHolder(waitingCustomerItem, context, parent, name, people, estWaitingTime, totalWaitingTime, notes,notifyButton, cancelButton);
+        return new WaitingCustomerRecordHolder(waitingCustomerItemLayout, context, parent, name, people, estWaitingTime, totalWaitingTime, notes,notifyButton, cancelButton);
     }
 
     public void startAnimation(Animation animation) {
@@ -98,12 +98,12 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         this.card = card;
     }
 
-    public LinearLayout getWaitingCustomerItem() {
-        return waitingCustomerItem;
+    public LinearLayout getWaitingCustomerItemLayout() {
+        return waitingCustomerItemLayout;
     }
 
-    public void setWaitingCustomerItem(LinearLayout waitingCustomerItem) {
-        this.waitingCustomerItem = waitingCustomerItem;
+    public void setWaitingCustomerItemLayout(LinearLayout waitingCustomerItemLayout) {
+        this.waitingCustomerItemLayout = waitingCustomerItemLayout;
     }
 
     public Button getCancelButton() {
