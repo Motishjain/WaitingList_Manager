@@ -52,14 +52,15 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
         recordHolder.setEstWaitingTimeView(currentWaitingCustomer.getEstWaitingTime());
         recordHolder.setTotalWaitingTimeView(currentWaitingCustomer.getTotalWaitingTime());
         recordHolder.setNotesView(currentWaitingCustomer.getNotes());
-        if(currentWaitingCustomer.isDelayed()) {
-            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
+
+        if(currentWaitingCustomer.isConfirmed()) {
+        recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.GREEN);
         }
         else if(currentWaitingCustomer.isNotified()) {
             recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.YELLOW);
         }
-        else if(currentWaitingCustomer.isConfirmed()) {
-            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.GREEN);
+        else if(currentWaitingCustomer.isDelayed()) {
+            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
         }
 
         recordHolder.notifyButton.setOnClickListener(new View.OnClickListener() {
@@ -69,12 +70,14 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                 String message = "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka." +
                         " We are ready to serve you. Please reply 1 to confirm your table.";
                 SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage(contactNumber, null, message, null, null);
+                //smsManager.sendTextMessage(contactNumber, null, message, null, null);
                 try {
                     UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                     updateBuilder.where().eq("id", currentWaitingCustomer.getId());
                     updateBuilder.updateColumnValue("notified", true);
                     updateBuilder.update();
+                    currentWaitingCustomer.setNotified(true);
+                    notifyItemChanged(position);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -92,8 +95,9 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                                                                      try {
                                                                          UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                                                                          updateBuilder.where().eq("id", currentWaitingCustomer.getId());
-                                                                         updateBuilder.updateColumnValue("isDeleted", true);
+                                                                         updateBuilder.updateColumnValue("deleted", true);
                                                                          updateBuilder.update();
+                                                                         currentWaitingCustomer.setDeleted(true);
                                                                      } catch (Exception e) {
                                                                          e.printStackTrace();
                                                                      }

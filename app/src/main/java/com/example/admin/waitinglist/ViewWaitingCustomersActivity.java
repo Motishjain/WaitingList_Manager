@@ -1,24 +1,17 @@
 package com.example.admin.waitinglist;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.SmsMessage;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.Toast;
 
 import com.example.admin.database.DBHelper;
 import com.example.admin.database.WaitingCustomer;
@@ -135,7 +128,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         /*waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);*/
         try {
             queryBuilder.where().between("createdTs", currentTs, yestTs);
-            queryBuilder.where().eq("isDeleted", false);
+            queryBuilder.where().eq("deleted", false);
             queryBuilder.orderBy("createdTs", true);
             final List<com.example.admin.database.WaitingCustomer> waitingCustomerList = queryBuilder.query();
             items = new ArrayList<>();
@@ -164,6 +157,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                     updateBuilder.where().eq("id", waitingCustomer.getId());
                     updateBuilder.updateColumnValue("confirmed", true);
                     updateBuilder.update();
+                    waitingCustomer.setConfirmed(true);
                 }
                 catch (SQLException e){
                     e.printStackTrace();

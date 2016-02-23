@@ -158,7 +158,6 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         return true;
     }
 
