@@ -67,10 +67,10 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
             @Override
             public void onClick(View v) {
                 String contactNumber = currentWaitingCustomer.getContactNumber();
-                String message = "Hi" + currentWaitingCustomer.getName() + ",\\n Greetings from Urban Tadka." +
+                String message = "Hi " + currentWaitingCustomer.getName() + ", Greetings from Urban Tadka." +
                         " We are ready to serve you. Please reply 1 to confirm your table.";
                 SmsManager smsManager = SmsManager.getDefault();
-                //smsManager.sendTextMessage(contactNumber, null, message, null, null);
+                smsManager.sendTextMessage(contactNumber, null, message, null, null);
                 try {
                     UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                     updateBuilder.where().eq("id", currentWaitingCustomer.getId());
