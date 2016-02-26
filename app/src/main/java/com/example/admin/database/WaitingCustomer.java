@@ -49,19 +49,19 @@ public class WaitingCustomer implements Serializable {
     private Date createdTs;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private Boolean deleted;
+    private boolean deleted;
 
     @DatabaseField
     private String notes;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private Boolean notified;
+    private boolean notified;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private Boolean delayed;
+    private boolean delayed;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private Boolean confirmed;
+    private boolean confirmed;
 
     public String getName() {
         return name;
@@ -127,35 +127,35 @@ public class WaitingCustomer implements Serializable {
         this.totalWaitingTime = totalWaitingTime;
     }
 
-    public Boolean isDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
 
-    public Boolean isNotified() {
+    public boolean isNotified() {
         return notified;
     }
 
-    public void setNotified(Boolean notified) {
+    public void setNotified(boolean notified) {
         this.notified = notified;
     }
 
-    public Boolean isDelayed() {
+    public boolean isDelayed() {
         return delayed;
     }
 
-    public Boolean isConfirmed() {
+    public boolean isConfirmed() {
         return confirmed;
     }
 
-    public void setDelayed(Boolean delayed) {
+    public void setDelayed(boolean delayed) {
         this.delayed = delayed;
     }
 
-    public void setConfirmed(Boolean confirmed) {
+    public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
     }
 }
