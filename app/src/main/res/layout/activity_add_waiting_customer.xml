@@ -106,13 +106,14 @@
                 android:layout_height="wrap_content"
                 android:hint="Special Notes"
                 android:inputType="text"
-                android:maxLength="3"
+                android:maxLength="100"
                 android:textColor="@color/PrimaryColor" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/inputNotesLayout"
             android:layout_alignParentBottom="true"
             android:weightSum="2">
 

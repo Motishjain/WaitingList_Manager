@@ -6,6 +6,7 @@
         android:id="@+id/waitingCustomerItemLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:weightSum="100"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:paddingBottom="5dp"
@@ -13,9 +14,9 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="15"
             android:fontFamily="sans-serif"
             android:gravity="left"
             android:text="Ali"
@@ -24,10 +25,10 @@
 
         <TextView
             android:id="@+id/totalPeople"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:layout_weight="1"
+            android:layout_weight="15"
             android:fontFamily="sans-serif"
             android:gravity="left"
             android:text="5"
@@ -36,10 +37,10 @@
 
         <TextView
             android:id="@+id/estWaitingTime"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="1dp"
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:fontFamily="sans-serif"
             android:gravity="left"
             android:text="20"
@@ -48,9 +49,9 @@
 
         <TextView
             android:id="@+id/totalWaitingTime"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="20"
             android:fontFamily="sans-serif"
             android:gravity="left"
             android:text="total"
@@ -59,9 +60,9 @@
 
         <TextView
             android:id="@+id/notes"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="15"
             android:fontFamily="sans-serif"
             android:gravity="left"
             android:text="notesView"
@@ -70,9 +71,9 @@
 
         <LinearLayout
             android:id="@+id/button_cont"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="15">
 
             <Button
                 android:id="@+id/notify"

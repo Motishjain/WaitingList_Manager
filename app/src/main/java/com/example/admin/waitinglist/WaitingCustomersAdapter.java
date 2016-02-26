@@ -141,8 +141,12 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                     String newTotalWaitingTime = String.valueOf(Long.parseLong(currentWaitingCustomer.getTotalWaitingTime()) + 1);
                     currentWaitingCustomer.setTotalWaitingTime(newTotalWaitingTime);
                     try {
-                        if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(currentWaitingCustomer.getEstWaitingTime()) && !currentWaitingCustomer.isDelayed()) {
+                        if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(currentWaitingCustomer.getEstWaitingTime()) && (!currentWaitingCustomer.isNotified() && !currentWaitingCustomer.isConfirmed() && !currentWaitingCustomer.isDelayed())) {
                             recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
+                            UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                            updateBuilder.where().eq("id", currentWaitingCustomer.getId());
+                            updateBuilder.updateColumnValue("delayed", true);
+                            updateBuilder.update();
                             currentWaitingCustomer.setDelayed(true);
                         }
                     }

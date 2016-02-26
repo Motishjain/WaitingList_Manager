@@ -57,7 +57,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
         numberPicker = new MaterialNumberPicker.Builder(getApplicationContext())
                 .minValue(1)
                 .maxValue(200)
-                .defaultValue(1)
+                .defaultValue(10)
                 .textColor(Color.WHITE).
                         backgroundColor(getResources().getColor(R.color.PrimaryColor)).
                         separatorColor(getResources().getColor(R.color.white))
