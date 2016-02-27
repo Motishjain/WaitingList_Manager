@@ -31,9 +31,9 @@ import java.util.List;
 
 public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> {
 
-    Dao<com.example.admin.database.WaitingCustomer, Integer> waitingCustomerDao;
+    Dao<WaitingCustomer, Integer> waitingCustomerDao;
 
-    QueryBuilder<com.example.admin.database.WaitingCustomer, Integer> queryBuilder;
+    QueryBuilder<WaitingCustomer, Integer> queryBuilder;
     ArrayList<WaitingCustomer> items;
     RecyclerView waitingCustomersView;
     private static ViewWaitingCustomersActivity inst;
@@ -130,7 +130,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             queryBuilder.where().between("createdTs", currentTs, yestTs);
             queryBuilder.where().eq("deleted", false);
             queryBuilder.orderBy("createdTs", true);
-            final List<com.example.admin.database.WaitingCustomer> waitingCustomerList = queryBuilder.query();
+            final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
             items = new ArrayList<>();
             if (waitingCustomerList.size() > 0) {
                 int i = 0;
@@ -190,7 +190,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         startActivity(addScreen);
     }
 
-    public void addRow(final com.example.admin.database.WaitingCustomer waitingCustomer, int index) {
+    public void addRow(final WaitingCustomer waitingCustomer, int index) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date1 = new Timestamp(Calendar.getInstance().getTime().getTime());

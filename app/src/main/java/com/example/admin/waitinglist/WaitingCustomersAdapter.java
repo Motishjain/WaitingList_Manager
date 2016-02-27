@@ -23,10 +23,9 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private ArrayList<WaitingCustomer> itemList;
     public Context mContext;
-    Dao<com.example.admin.database.WaitingCustomer,Integer> waitingCustomerDao;
+    Dao<WaitingCustomer,Integer> waitingCustomerDao;
 
-    public WaitingCustomersAdapter(ArrayList<WaitingCustomer
-            > itemList, Dao<com.example.admin.database.WaitingCustomer, Integer> waitingCustomerDao) {
+    public WaitingCustomersAdapter(ArrayList<WaitingCustomer> itemList, Dao<WaitingCustomer, Integer> waitingCustomerDao) {
         this.itemList = itemList;
         this.waitingCustomerDao = waitingCustomerDao;
     }
@@ -93,7 +92,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                                                                  @Override
                                                                  public void onClick(DialogInterface dialog, int which) {
                                                                      try {
-                                                                         UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                                                                         UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                                                                          updateBuilder.where().eq("id", currentWaitingCustomer.getId());
                                                                          updateBuilder.updateColumnValue("deleted", true);
                                                                          updateBuilder.update();
@@ -143,7 +142,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                     try {
                         if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(currentWaitingCustomer.getEstWaitingTime()) && (!currentWaitingCustomer.isNotified() && !currentWaitingCustomer.isConfirmed() && !currentWaitingCustomer.isDelayed())) {
                             recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.RED);
-                            UpdateBuilder<com.example.admin.database.WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                            UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                             updateBuilder.where().eq("id", currentWaitingCustomer.getId());
                             updateBuilder.updateColumnValue("delayed", true);
                             updateBuilder.update();
