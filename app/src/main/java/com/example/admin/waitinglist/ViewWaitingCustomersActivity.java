@@ -34,7 +34,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
     Dao<WaitingCustomer, Integer> waitingCustomerDao;
 
     QueryBuilder<WaitingCustomer, Integer> queryBuilder;
-    ArrayList<WaitingCustomer> items;
+    ArrayList<WaitingCustomer> waitingCustomerList;
     RecyclerView waitingCustomersView;
     private static ViewWaitingCustomersActivity inst;
 
@@ -132,14 +132,14 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             queryBuilder.orderBy("createdTs", true);
             queryBuilder.groupBy("totalPeople");
             final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
-            items = new ArrayList<>();
+            this.waitingCustomerList = new ArrayList<>();
             if (waitingCustomerList.size() > 0) {
                 int i = 0;
                 for (; i < waitingCustomerList.size(); i++) {
                     addRow(waitingCustomerList.get(i), i);
                 }
             }
-            WaitingCustomersAdapter adpt = new WaitingCustomersAdapter(items, waitingCustomerDao);
+            WaitingCustomersAdapter adpt = new WaitingCustomersAdapter(this.waitingCustomerList, waitingCustomerDao);
             waitingCustomersView = (RecyclerView) findViewById(R.id.view_cont);
             waitingCustomersView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
             waitingCustomersView.setAdapter(adpt);
@@ -151,7 +151,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
 
     public void replyReceived(String contactNumber, String response) {
         int i = 0;
-        for(WaitingCustomer waitingCustomer:items) {
+        for(WaitingCustomer waitingCustomer: waitingCustomerList) {
             if(contactNumber.contains(waitingCustomer.getContactNumber()) && response!=null && response.trim().equals("1")){
                 try {
                     UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
@@ -197,12 +197,12 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         Date date1 = new Timestamp(Calendar.getInstance().getTime().getTime());
         Date date = waitingCustomer.getCreatedTs();
         long min = (date1.getTime() - date.getTime()) / (60 * 1000);
-        items.add(new WaitingCustomer(waitingCustomer.getId(),
+        waitingCustomerList.add(new WaitingCustomer(waitingCustomer.getId(),
                 waitingCustomer.getName(),
                 waitingCustomer.getContactNumber(),
                 waitingCustomer.getTotalPeople(),
                 waitingCustomer.getEstWaitingTime(),
-                ""+min,
+                "" + min,
                 waitingCustomer.getNotes()
         ));
     }

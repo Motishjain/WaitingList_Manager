@@ -83,7 +83,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
 
-        recordHolder.cancelButton.setOnClickListener(new View.OnClickListener() {
+        recordHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
                                                          @Override
                                                          public void onClick(View v) {
                                                              final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);

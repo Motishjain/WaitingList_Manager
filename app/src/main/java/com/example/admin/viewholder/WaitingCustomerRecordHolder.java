@@ -17,11 +17,11 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
     TextView name, totalPeopleView, estWaitingTimeView, totalWaitingTimeView, notesView;
     View card;
     LinearLayout waitingCustomerItemLayout;
-    public Button cancelButton;
+    public Button deleteButton;
     public Button notifyButton;
     public Context context;
 
-    public WaitingCustomerRecordHolder(LinearLayout waitingCustomerItemLayout, Context context, final View itemView, TextView name, TextView totalPeopleView, TextView estWaitingTimeView, TextView totalWaitingTimeView, TextView notesView, Button notifyButton, Button cancelButton) {
+    public WaitingCustomerRecordHolder(LinearLayout waitingCustomerItemLayout, Context context, final View itemView, TextView name, TextView totalPeopleView, TextView estWaitingTimeView, TextView totalWaitingTimeView, TextView notesView, Button notifyButton, Button deleteButton) {
 
         super(itemView);
         this.waitingCustomerItemLayout = waitingCustomerItemLayout;
@@ -33,7 +33,7 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         this.totalWaitingTimeView = totalWaitingTimeView;
         this.notesView = notesView;
         this.notifyButton = notifyButton;
-        this.cancelButton = cancelButton;
+        this.deleteButton = deleteButton;
     }
 
     public static WaitingCustomerRecordHolder newInstance(Context context, View parent) {
@@ -55,7 +55,7 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         totalWaitingTimeView.startAnimation(animation);
         notesView.startAnimation(animation);
         notifyButton.startAnimation(animation);
-        cancelButton.startAnimation(animation);
+        deleteButton.startAnimation(animation);
     }
 
     public TextView getName() {
@@ -106,12 +106,12 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
         this.waitingCustomerItemLayout = waitingCustomerItemLayout;
     }
 
-    public Button getCancelButton() {
-        return cancelButton;
+    public Button getDeleteButton() {
+        return deleteButton;
     }
 
-    public void setCancelButton(Button cancelButton) {
-        this.cancelButton = cancelButton;
+    public void setDeleteButton(Button deleteButton) {
+        this.deleteButton = deleteButton;
     }
 
     public Context getContext() {
