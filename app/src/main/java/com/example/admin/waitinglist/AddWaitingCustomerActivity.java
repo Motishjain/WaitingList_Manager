@@ -63,6 +63,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
         numberPickerHeader.setTextColor(Color.WHITE);
         numberPickerHeader.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
 
+        //After clicking on Next button, a popup appears to enter estimated waiting time
         numberPicker = new MaterialNumberPicker.Builder(getApplicationContext())
                 .minValue(1)
                 .maxValue(200)
@@ -100,7 +101,6 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                 inputNameLayout.setError(null);
                 inputContactNumberLayout.setError(null);
                 inputTotalPeopleLayout.setError(null);
-
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +108,12 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
             public void onClick(View v) {
                 boolean flag = false;
                 if (totalPeople.getText().toString().equals("")) {
-                    inputTotalPeopleLayout.setError("Please enter total totalPeople");
+                    inputTotalPeopleLayout.setError("Please enter total people");
                     totalPeople.findFocus();
                     flag = true;
                 }
                 if (contactNumber.getText().toString().equals("")) {
-                    inputContactNumberLayout.setError("Please enter contactNumber no");
+                    inputContactNumberLayout.setError("Please enter contact number");
                     contactNumber.findFocus();
                     flag = true;
                 }
@@ -123,7 +123,6 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                     flag = true;
                 }
                 if (!flag) {
-
                     new AlertDialog.Builder(AddWaitingCustomerActivity.this)
                             .setInverseBackgroundForced(true)
                             .setView(layout)

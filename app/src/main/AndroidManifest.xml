@@ -24,8 +24,7 @@
         <activity
             android:name="com.example.admin.waitinglist.AddWaitingCustomerActivity"
             android:label="@string/add_waiting_customer"
-            android:windowSoftInputMode="adjustResize"
-            >
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name="com.example.admin.waitinglist.ViewWaitingCustomersActivity"

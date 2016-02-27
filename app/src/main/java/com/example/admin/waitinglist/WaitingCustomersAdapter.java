@@ -21,12 +21,12 @@ import java.util.ArrayList;
 
 public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<WaitingCustomer> itemList;
+    private ArrayList<WaitingCustomer> waitingCustomerList;
     public Context mContext;
     Dao<WaitingCustomer,Integer> waitingCustomerDao;
 
-    public WaitingCustomersAdapter(ArrayList<WaitingCustomer> itemList, Dao<WaitingCustomer, Integer> waitingCustomerDao) {
-        this.itemList = itemList;
+    public WaitingCustomersAdapter(ArrayList<WaitingCustomer> waitingCustomerList, Dao<WaitingCustomer, Integer> waitingCustomerDao) {
+        this.waitingCustomerList = waitingCustomerList;
         this.waitingCustomerDao = waitingCustomerDao;
     }
 
@@ -44,7 +44,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position)
     {
         final WaitingCustomerRecordHolder recordHolder = (WaitingCustomerRecordHolder) holder;
-        final WaitingCustomer currentWaitingCustomer = itemList.get(position);
+        final WaitingCustomer currentWaitingCustomer = waitingCustomerList.get(position);
 
         recordHolder.setName(currentWaitingCustomer.getName());
         recordHolder.setTotalPeopleView(currentWaitingCustomer.getTotalPeople());
@@ -110,7 +110,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                                                                          @Override
                                                                          public void onAnimationEnd(Animation animation) {
-                                                                             itemList.remove(position);
+                                                                             waitingCustomerList.remove(position);
                                                                              notifyItemRemoved(position);
                                                                          }
 
@@ -170,6 +170,6 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return itemList == null ? 0 : itemList.size();
+        return waitingCustomerList == null ? 0 : waitingCustomerList.size();
     }
 }

@@ -130,6 +130,7 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             queryBuilder.where().between("createdTs", currentTs, yestTs);
             queryBuilder.where().eq("deleted", false);
             queryBuilder.orderBy("createdTs", true);
+            queryBuilder.groupBy("totalPeople");
             final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
             items = new ArrayList<>();
             if (waitingCustomerList.size() > 0) {
