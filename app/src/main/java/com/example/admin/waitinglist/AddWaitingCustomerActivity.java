@@ -14,10 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.admin.database.WaitingCustomer;
 
 import com.example.admin.database.DBHelper;
+import com.example.admin.formatter.PickerFormatter;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
 
@@ -54,10 +56,17 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
             }
         });
 
+        TextView numberPickerHeader = new TextView(getApplicationContext());
+        numberPickerHeader.setTranslationX(2);
+        numberPickerHeader.setText("Set Estimated waiting time");
+        numberPickerHeader.setTextSize(25);
+        numberPickerHeader.setTextColor(Color.WHITE);
+        numberPickerHeader.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
+
         numberPicker = new MaterialNumberPicker.Builder(getApplicationContext())
                 .minValue(1)
                 .maxValue(200)
-                .defaultValue(10)
+                .defaultValue(10).formatter(new PickerFormatter())
                 .textColor(Color.WHITE).
                         backgroundColor(getResources().getColor(R.color.PrimaryColor)).
                         separatorColor(getResources().getColor(R.color.white))
@@ -70,6 +79,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(getResources().getColor(R.color.PrimaryColor));
+        layout.addView(numberPickerHeader);
         layout.addView(numberPicker);
 
         try {
