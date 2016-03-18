@@ -31,7 +31,7 @@ import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
 
     EditText name, contactNumber, totalPeople, notes;
-    ImageView back_btn;
+    ImageView home_btn;
     Toolbar mToolbar;
     String est = "";
     biz.kasual.materialnumberpicker.MaterialNumberPicker numberPicker;
@@ -45,14 +45,15 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
         contactNumber = (EditText) findViewById(R.id.inputContactNumberText);
         totalPeople = (EditText) findViewById(R.id.inputTotalPeopleText);
         notes = (EditText) findViewById(R.id.inputNotesText);
-        back_btn = (ImageView) findViewById(R.id.add_back);
+        home_btn = (ImageView) findViewById(R.id.add_home);
         inputNameLayout = (TextInputLayout) findViewById(R.id.inputNameLayout);
         inputContactNumberLayout = (TextInputLayout) findViewById(R.id.inputContactNumberLayout);
         inputTotalPeopleLayout = (TextInputLayout) findViewById(R.id.inputTotalPeopleLayout);
-        back_btn.setOnClickListener(new View.OnClickListener() {
+        home_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddWaitingCustomerActivity.this.finish();
+                Intent homePage = new Intent(AddWaitingCustomerActivity.this,HomePageActivity.class);
+                startActivity(homePage);
             }
         });
 

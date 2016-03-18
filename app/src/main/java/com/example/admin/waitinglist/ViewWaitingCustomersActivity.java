@@ -106,12 +106,13 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             //TODO logging
         }
 
-        ImageView back_btn = (ImageView) findViewById(R.id.view_back);
+        ImageView back_btn = (ImageView) findViewById(R.id.view_home);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewWaitingCustomersActivity.this.finish();
+                Intent homePage = new Intent(ViewWaitingCustomersActivity.this,HomePageActivity.class);
+                startActivity(homePage);
             }
         });
 
