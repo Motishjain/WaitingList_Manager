@@ -37,8 +37,8 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
     }
 
     public static WaitingCustomerRecordHolder newInstance(Context context, View parent) {
-        LinearLayout waitingCustomerItemLayout = (LinearLayout) parent.findViewById(R.id.waitingCustomerItemLayout);
         TextView name = (TextView) parent.findViewById(R.id.name);
+        LinearLayout waitingCustomerItemLayout = (LinearLayout) parent.findViewById(R.id.waitingCustomerItemLayout);
         TextView people = (TextView) parent.findViewById(R.id.totalPeople);
         TextView estWaitingTime = (TextView) parent.findViewById(R.id.estWaitingTime);
         TextView totalWaitingTime = (TextView) parent.findViewById(R.id.totalWaitingTime);
@@ -49,13 +49,14 @@ public class WaitingCustomerRecordHolder extends RecyclerView.ViewHolder {
     }
 
     public void startAnimation(Animation animation) {
-        name.startAnimation(animation);
+/*        name.startAnimation(animation);
         totalPeopleView.startAnimation(animation);
         estWaitingTimeView.startAnimation(animation);
         totalWaitingTimeView.startAnimation(animation);
         notesView.startAnimation(animation);
         notifyButton.startAnimation(animation);
-        deleteButton.startAnimation(animation);
+        deleteButton.startAnimation(animation);*/
+        waitingCustomerItemLayout.startAnimation(animation);
     }
 
     public TextView getName() {

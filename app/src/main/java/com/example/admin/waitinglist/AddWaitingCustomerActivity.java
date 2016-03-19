@@ -147,6 +147,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                                         //TODO logging
                                     }
                                     Intent viewScreen = new Intent(AddWaitingCustomerActivity.this, ViewWaitingCustomersActivity.class);
+                                    viewScreen.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     viewScreen.putExtra("waitingCustomer", waitingCustomer);
                                     startActivity(viewScreen);
                                 }

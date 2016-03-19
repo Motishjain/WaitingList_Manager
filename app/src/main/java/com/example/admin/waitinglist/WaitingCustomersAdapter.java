@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
@@ -18,42 +19,20 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<WaitingCustomer> waitingCustomerList;
+    private List<WaitingCustomer> waitingCustomerList;
     public Context mContext;
     Dao<WaitingCustomer,Integer> waitingCustomerDao;
+    Runnable runnable;
+    Handler handler;
 
     public WaitingCustomersAdapter(final ArrayList<WaitingCustomer> waitingCustomerList, final Dao<WaitingCustomer, Integer> waitingCustomerDao) {
         this.waitingCustomerList = waitingCustomerList;
         this.waitingCustomerDao = waitingCustomerDao;
-        final android.os.Handler handler = new android.os.Handler();
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                for (int counter =0; counter< waitingCustomerList.size();counter++) {
-                    WaitingCustomer waitingCustomer = waitingCustomerList.get(counter);
-                    String newTotalWaitingTime = String.valueOf(Long.parseLong(waitingCustomer.getTotalWaitingTime()) + 1);
-                    waitingCustomer.setTotalWaitingTime(newTotalWaitingTime);
-                    try {
-                        if (Integer.parseInt(newTotalWaitingTime) >= Integer.parseInt(waitingCustomer.getEstWaitingTime()) && (waitingCustomer.getNotified() == 0 && waitingCustomer.getConfirmed() == 0 && waitingCustomer.getDelayed() == 0)) {
-                            UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
-                            updateBuilder.where().eq("id", waitingCustomer.getId());
-                            updateBuilder.updateColumnValue("delayed", 1);
-                            updateBuilder.update();
-                            waitingCustomer.setDelayed(1);
-                        }
-                    } catch (Exception e) {
-                        //TODO handle error
-                    }
-                }
-                notifyDataSetChanged();
-                handler.postDelayed(this,60 * 1000);
-            }
-        };
-
-        handler.postDelayed(runnable,60 * 1000);
+        startTimer();
     }
 
     public View view;
@@ -84,7 +63,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
             recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.YELLOW);
         }
         else if(currentWaitingCustomer.getDelayed()==1) {
-            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(0xFF0000);
+            recordHolder.getWaitingCustomerItemLayout().setBackgroundColor(Color.parseColor("#FF6666"));
         }
 
         recordHolder.notifyButton.setOnClickListener(new View.OnClickListener() {
@@ -165,5 +144,47 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         return waitingCustomerList == null ? 0 : waitingCustomerList.size();
+    }
+
+    public void startTimer(){
+        handler = new android.os.Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                for (int counter =0; counter< waitingCustomerList.size();counter++) {
+                    WaitingCustomer waitingCustomer = waitingCustomerList.get(counter);
+                    String newTotalWaitingTime = String.valueOf(Long.parseLong(waitingCustomer.getTotalWaitingTime()) + 1);
+                    waitingCustomer.setTotalWaitingTime(newTotalWaitingTime);
+                    try {
+                        if (Integer.parseInt(newTotalWaitingTime) >= Integer.parseInt(waitingCustomer.getEstWaitingTime()) && (waitingCustomer.getNotified() == 0 && waitingCustomer.getConfirmed() == 0 && waitingCustomer.getDelayed() == 0)) {
+                            UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
+                            updateBuilder.where().eq("id", waitingCustomer.getId());
+                            updateBuilder.updateColumnValue("delayed", 1);
+                            updateBuilder.update();
+                            waitingCustomer.setDelayed(1);
+                        }
+                    } catch (Exception e) {
+                        //TODO handle error
+                    }
+                }
+                notifyDataSetChanged();
+                handler.postDelayed(this,60 * 1000);
+            }
+        };
+
+        handler.postDelayed(runnable,60 * 1000);
+    }
+
+    public void stopTimer(){
+        handler.removeCallbacks(runnable);
+    }
+
+    public List<WaitingCustomer> getWaitingCustomerList() {
+        return waitingCustomerList;
+    }
+
+    public void setWaitingCustomerList(List<WaitingCustomer> waitingCustomerList) {
+        this.waitingCustomerList = waitingCustomerList;
+        notifyDataSetChanged();
     }
 }

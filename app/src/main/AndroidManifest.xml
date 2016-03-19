@@ -28,6 +28,7 @@
         </activity>
         <activity
             android:name="com.example.admin.waitinglist.ViewWaitingCustomersActivity"
+            android:launchMode="singleInstance"
             android:configChanges="orientation|screenSize"></activity>
         <receiver android:name="com.example.admin.broadcastreceiver.IncomingSms">
             <intent-filter>

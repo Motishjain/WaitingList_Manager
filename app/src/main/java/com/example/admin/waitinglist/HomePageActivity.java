@@ -25,6 +25,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnadd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent addIntent = new Intent(getApplicationContext(), AddWaitingCustomerActivity.class);
+                addIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(addIntent);
             }
 
@@ -33,6 +34,7 @@ public class HomePageActivity extends AppCompatActivity {
         btnview.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 Intent viewIntent = new Intent(getApplicationContext(),ViewWaitingCustomersActivity.class);
+                viewIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(viewIntent);
             }
 

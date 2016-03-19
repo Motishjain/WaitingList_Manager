@@ -106,9 +106,9 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
             //TODO logging
         }
 
-        ImageView back_btn = (ImageView) findViewById(R.id.view_home);
+        ImageView home_btn = (ImageView) findViewById(R.id.view_home);
 
-        back_btn.setOnClickListener(new View.OnClickListener() {
+        home_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent homePage = new Intent(ViewWaitingCustomersActivity.this,HomePageActivity.class);
@@ -118,6 +118,11 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
 
         loadItems();
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        loadItems();
     }
 
     public void loadItems(){
@@ -140,8 +145,17 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                     addRow(waitingCustomerList.get(i), i);
                 }
             }
-            WaitingCustomersAdapter adpt = new WaitingCustomersAdapter(this.waitingCustomerList, waitingCustomerDao);
             waitingCustomersView = (RecyclerView) findViewById(R.id.view_cont);
+
+            WaitingCustomersAdapter adpt;
+            if(waitingCustomersView.getAdapter()!=null){
+                adpt = ((WaitingCustomersAdapter)waitingCustomersView.getAdapter());
+                adpt.setWaitingCustomerList(waitingCustomerList);
+            }
+            else {
+                adpt = new WaitingCustomersAdapter(this.waitingCustomerList, waitingCustomerDao);
+            }
+
             waitingCustomersView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL, false));
             waitingCustomersView.setAdapter(adpt);
         } catch (SQLException e) {
