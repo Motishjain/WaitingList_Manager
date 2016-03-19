@@ -44,12 +44,12 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                             updateBuilder.updateColumnValue("totalWaitingTime", 1);
                             updateBuilder.update();
                             waitingCustomer.setDelayed(1);
-                            notifyItemChanged(counter);
                         }
                     } catch (Exception e) {
                         //TODO handle error
                     }
                 }
+                notifyDataSetChanged();
             }
         };
 
