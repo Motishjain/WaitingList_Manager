@@ -129,9 +129,9 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         /*waitingCustomersTable = (TableLayout) findViewById(R.id.waitingCustomersTable);*/
         try {
             queryBuilder.where().between("createdTs", currentTs, yestTs);
-            queryBuilder.where().eq("deleted", false);
+            queryBuilder.where().eq("deleted", 0);
             queryBuilder.orderBy("createdTs", true);
-            queryBuilder.groupBy("totalPeople");
+            queryBuilder.orderBy("totalPeople", true);
             final List<WaitingCustomer> waitingCustomerList = queryBuilder.query();
             this.waitingCustomerList = new ArrayList<>();
             if (waitingCustomerList.size() > 0) {
@@ -157,9 +157,9 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
                 try {
                     UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                     updateBuilder.where().eq("id", waitingCustomer.getId());
-                    updateBuilder.updateColumnValue("confirmed", true);
+                    updateBuilder.updateColumnValue("confirmed", 1);
                     updateBuilder.update();
-                    waitingCustomer.setConfirmed(true);
+                    waitingCustomer.setConfirmed(1);
                 }
                 catch (SQLException e){
                     e.printStackTrace();
@@ -198,13 +198,10 @@ public class ViewWaitingCustomersActivity extends OrmLiteBaseActivity<DBHelper> 
         Date date1 = new Timestamp(Calendar.getInstance().getTime().getTime());
         Date date = waitingCustomer.getCreatedTs();
         long min = (date1.getTime() - date.getTime()) / (60 * 1000);
-        waitingCustomerList.add(new WaitingCustomer(waitingCustomer.getId(),
-                waitingCustomer.getName(),
-                waitingCustomer.getContactNumber(),
-                waitingCustomer.getTotalPeople(),
-                waitingCustomer.getEstWaitingTime(),
-                "" + min,
-                waitingCustomer.getNotes()
-        ));
+        waitingCustomer.setTotalWaitingTime(min + "");
+        if(min>Integer.parseInt(waitingCustomer.getEstWaitingTime())){
+            waitingCustomer.setDelayed(1);
+        }
+        waitingCustomerList.add(waitingCustomer);
     }
 }

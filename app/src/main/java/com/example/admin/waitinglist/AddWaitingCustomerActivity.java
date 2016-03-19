@@ -113,8 +113,8 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                     totalPeople.findFocus();
                     flag = true;
                 }
-                if (contactNumber.getText().toString().equals("")) {
-                    inputContactNumberLayout.setError("Please enter contact number");
+                if (contactNumber.getText().toString().equals("") || contactNumber.getText().toString().length()<10) {
+                    inputContactNumberLayout.setError("Please enter contact number(10 digits)");
                     contactNumber.findFocus();
                     flag = true;
                 }
@@ -138,7 +138,7 @@ public class AddWaitingCustomerActivity extends OrmLiteBaseActivity<DBHelper> {
                                     //TODO add a new screen to enter waiting time
                                     waitingCustomer.setEstWaitingTime(est);
                                     waitingCustomer.setCreatedTs(new Timestamp(Calendar.getInstance().getTime().getTime()));
-                                    waitingCustomer.setDeleted(false);
+                                    waitingCustomer.setDeleted(0);
                                     waitingCustomer.setNotes(notes.getText().toString());
                                     try {
                                         waitingCustomerDao.create(waitingCustomer);

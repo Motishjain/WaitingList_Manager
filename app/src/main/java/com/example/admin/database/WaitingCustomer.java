@@ -40,6 +40,7 @@ public class WaitingCustomer implements Serializable {
     @DatabaseField
     private String totalPeople;
 
+    @DatabaseField
     private String totalWaitingTime;
 
     @DatabaseField
@@ -48,20 +49,20 @@ public class WaitingCustomer implements Serializable {
     @DatabaseField(dataType = DataType.DATE_LONG)
     private Date createdTs;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean deleted;
-
     @DatabaseField
     private String notes;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean notified;
+    @DatabaseField
+    private int deleted;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean delayed;
+    @DatabaseField
+    private int notified;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean confirmed;
+    @DatabaseField
+    private int delayed;
+
+    @DatabaseField
+    private int confirmed;
 
     public String getName() {
         return name;
@@ -127,35 +128,35 @@ public class WaitingCustomer implements Serializable {
         this.totalWaitingTime = totalWaitingTime;
     }
 
-    public boolean isDeleted() {
+    public int getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(int deleted) {
         this.deleted = deleted;
     }
 
-    public boolean isNotified() {
+    public int getNotified() {
         return notified;
     }
 
-    public void setNotified(boolean notified) {
+    public void setNotified(int notified) {
         this.notified = notified;
     }
 
-    public boolean isDelayed() {
+    public int getDelayed() {
         return delayed;
     }
 
-    public boolean isConfirmed() {
-        return confirmed;
-    }
-
-    public void setDelayed(boolean delayed) {
+    public void setDelayed(int delayed) {
         this.delayed = delayed;
     }
 
-    public void setConfirmed(boolean confirmed) {
+    public int getConfirmed() {
+        return confirmed;
+    }
+
+    public void setConfirmed(int confirmed) {
         this.confirmed = confirmed;
     }
 }
