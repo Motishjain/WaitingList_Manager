@@ -41,7 +41,6 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                             UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                             updateBuilder.where().eq("id", waitingCustomer.getId());
                             updateBuilder.updateColumnValue("delayed", 1);
-                            updateBuilder.updateColumnValue("totalWaitingTime", 1);
                             updateBuilder.update();
                             waitingCustomer.setDelayed(1);
                         }
@@ -50,6 +49,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
                 }
                 notifyDataSetChanged();
+                handler.postDelayed(this,60 * 1000);
             }
         };
 

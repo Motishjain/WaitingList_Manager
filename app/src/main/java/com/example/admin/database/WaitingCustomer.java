@@ -14,16 +14,6 @@ import java.util.Date;
 @DatabaseTable(tableName = "WAITING_CUSTOMER")
 public class WaitingCustomer implements Serializable {
 
-    public WaitingCustomer(Integer id, String name, String contactNumber, String totalPeople, String estWaitingTime, String totalWaitingTime, String notes) {
-        this.id = id;
-        this.name = name;
-        this.contactNumber = contactNumber;
-        this.totalPeople = totalPeople;
-        this.estWaitingTime = estWaitingTime;
-        this.totalWaitingTime = totalWaitingTime;
-        this.notes = notes;
-    }
-
     public WaitingCustomer() {
 
     }
@@ -40,7 +30,6 @@ public class WaitingCustomer implements Serializable {
     @DatabaseField
     private String totalPeople;
 
-    @DatabaseField
     private String totalWaitingTime;
 
     @DatabaseField
