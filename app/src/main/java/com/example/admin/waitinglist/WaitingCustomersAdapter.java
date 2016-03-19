@@ -37,7 +37,7 @@ public class WaitingCustomersAdapter extends RecyclerView.Adapter<RecyclerView.V
                     String newTotalWaitingTime = String.valueOf(Long.parseLong(waitingCustomer.getTotalWaitingTime()) + 1);
                     waitingCustomer.setTotalWaitingTime(newTotalWaitingTime);
                     try {
-                        if (Integer.parseInt(newTotalWaitingTime) > Integer.parseInt(waitingCustomer.getEstWaitingTime()) && (waitingCustomer.getNotified() == 0 && waitingCustomer.getConfirmed() == 0 && waitingCustomer.getDelayed() == 0)) {
+                        if (Integer.parseInt(newTotalWaitingTime) >= Integer.parseInt(waitingCustomer.getEstWaitingTime()) && (waitingCustomer.getNotified() == 0 && waitingCustomer.getConfirmed() == 0 && waitingCustomer.getDelayed() == 0)) {
                             UpdateBuilder<WaitingCustomer, Integer> updateBuilder = waitingCustomerDao.updateBuilder();
                             updateBuilder.where().eq("id", waitingCustomer.getId());
                             updateBuilder.updateColumnValue("delayed", 1);
